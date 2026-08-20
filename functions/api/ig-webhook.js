@@ -68,9 +68,16 @@ export async function onRequest(context) {
     body: JSON.stringify({ igsid: 'debug:last-event', last_text: raw.slice(0, 200) }),
   });
 
+  // Two payload shapes exist in the wild. The older messaging API delivers
+  // entry[].messaging[]; the Instagram-login flow delivers entry[].changes[]
+  // with field "messages" and the event inside value. The flight recorder
+  // caught the second one arriving from a live app, so both are handled.
   const events = [];
   for (const entry of body.entry || []) {
     for (const m of entry.messaging || []) events.push(m);
+    for (const c of entry.changes || []) {
+      if (c.field === 'messages' && c.value?.sender) events.push(c.value);
+    }
   }
 
   for (const ev of events) {
