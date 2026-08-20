@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!--
+    FRAME app mark.
+    Viewfinder brackets with a subject breaking out toward the top right.
+    Pure geometry, drawn rather than generated: exact #C8FF2E at every size,
+    no raster artefacts, no watermark.
+  -->
+  <rect width="1024" height="1024" fill="#0A0A0C"/>
+
+  <g stroke="#C8FF2E" stroke-width="56" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M104,420 L104,104 L420,104"/>
+    <path d="M604,104 L920,104 L920,420"/>
+    <path d="M920,604 L920,920 L604,920"/>
+    <path d="M420,920 L104,920 L104,604"/>
+  </g>
+
+  <!--
+    One closed path: tip, straight down the tangent to the body, the major arc
+    around, and back up the other tangent. Meeting the circle exactly on its
+    tangents is what removes the notch where the taper joins the body.
+  -->
+  <path fill="#C8FF2E" d="M838,257 L693.2,686.8 A225,225 0 1 1 408.2,401.8 Z"/>
+</svg>

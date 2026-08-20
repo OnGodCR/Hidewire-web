@@ -1,0 +1,25 @@
+# Cloudflare Pages headers.
+#
+# vercel.json mirrors every header in this file, because Vercel does not read
+# it. A change here is not done until it is made there too, and the other way
+# around.
+#
+# The content security policy is the enforcement behind the claim on the page
+# that this site loads nothing from anyone else. If someone later pastes in an
+# analytics snippet or a font CDN link, the browser refuses it and the mistake
+# shows up immediately rather than quietly shipping to an audience that
+# includes 13 to 17 year olds.
+
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; form-action 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), interest-cohort=(), microphone=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=604800

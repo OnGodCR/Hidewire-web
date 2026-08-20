@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hidewire · Hiding isn’t enough. Prove it.</title>
+<meta name="description" content="The future of getting outside with your friends. Join the waitlist and get an exclusive in-game reward at launch.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0A0A0C">
+<meta property="og:title" content="Hidewire · Hiding isn’t enough. Prove it.">
+<meta property="og:description" content="The future of getting outside with your friends. Join the waitlist and get an exclusive in-game reward at launch.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hidewire.org/">
+<link rel="canonical" href="https://hidewire.org/">
+<link rel="icon" href="/assets/hidewire-mark.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/assets/favicon.png" sizes="48x48">
+<link rel="preload" href="/fonts/space-grotesk-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<script src="/motion.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="head-inner">
+    <span class="lockup">
+      <img class="mark" src="/assets/hidewire-logo.svg" width="34" height="34" alt="">
+      <span class="wordmark">Hidewire</span>
+    </span>
+    <p class="head-status label">Waitlist open</p>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Hiding isn’t enough. Prove it.</h1>
+      <p class="lede">The future of getting outside with your friends.</p>
+
+      <div class="signup" id="waitlist">
+        <form class="form" id="waitlist-form" action="/api/waitlist" method="post" novalidate>
+          <div class="field">
+            <label class="label" for="email">Join the waitlist</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              spellcheck="false"
+              required
+              placeholder="you@example.com"
+              aria-describedby="form-status">
+          </div>
+          <div class="trap" aria-hidden="true">
+            <label for="company">Company</label>
+            <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="btn" type="submit">Join</button>
+        </form>
+        <p class="status" id="form-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="reward">
+        <span class="reward-mark" aria-hidden="true"></span>
+        Everyone on this list gets a link to an <strong>exclusive in-game reward</strong>
+        the day Hidewire drops.
+      </p>
+    </div>
+
+    <div class="hero-art">
+      <figure class="phone phone-back">
+        <img src="/assets/shots/03-round.png" width="390" height="844" alt="A round in progress: the round clock, a dark city map with landmarks, and a countdown to the next check-in.">
+      </figure>
+      <figure class="phone phone-front">
+        <img src="/assets/shots/01-lobby.png" width="390" height="844" fetchpriority="high" alt="The Hidewire lobby: an invite code in large type, the play zone drawn on a city map, and the party waiting to start.">
+      </figure>
+    </div>
+
+    <p class="scroll-cue label" aria-hidden="true">Scroll</p>
+  </section>
+
+  <!-- ------------------------------------------------------------------
+       The scroller. One phone stays pinned in the middle while the copy
+       moves past it at alternating edges and the screen changes underneath.
+
+       Every figure in the copy is the app's own default, checked against
+       mobile/src/screens/JoinLobby.tsx and PRD.md rather than remembered.
+       If the game changes, these are the first thing to go stale.
+       ------------------------------------------------------------------ -->
+  <section class="scroller" aria-labelledby="scroller-h">
+    <h2 class="visually-hidden" id="scroller-h">How a round works</h2>
+
+    <div class="stage" aria-hidden="true">
+      <!-- Ambient only, and drawn from the app's own vocabulary rather than
+           anything celebratory: the dashed play zone, its landmark diamonds,
+           and a reveal ping that fires once whenever the step changes. -->
+      <div class="ambient">
+        <span class="ring ring-far"></span>
+        <span class="ring ring-near"></span>
+        <span class="ping" id="ping"></span>
+
+        <!-- One signature per step, cross-faded by data-step on the stage. -->
+        <span class="fx fx-scatter">
+          <i style="--a: 0deg"></i>
+          <i style="--a: 30deg"></i>
+          <i style="--a: 60deg"></i>
+          <i style="--a: 90deg"></i>
+          <i style="--a: 120deg"></i>
+          <i style="--a: 150deg"></i>
+          <i style="--a: 180deg"></i>
+          <i style="--a: 210deg"></i>
+          <i style="--a: 240deg"></i>
+          <i style="--a: 270deg"></i>
+          <i style="--a: 300deg"></i>
+          <i style="--a: 330deg"></i>
+        </span>
+        <span class="fx fx-scan"></span>
+        <span class="fx fx-radar"></span>
+        <span class="fx fx-orbit">
+          <i style="--a: 0deg"></i>
+          <i style="--a: 45deg"></i>
+          <i style="--a: 90deg"></i>
+          <i style="--a: 135deg"></i>
+          <i style="--a: 180deg"></i>
+          <i style="--a: 225deg"></i>
+          <i style="--a: 270deg"></i>
+          <i style="--a: 315deg"></i>
+        </span>
+        <span class="fx fx-bars">
+          <i style="--x: 6%; --h: 18%; --d: -0.2s"></i>
+          <i style="--x: 12%; --h: 34%; --d: -1.1s"></i>
+          <i style="--x: 18%; --h: 26%; --d: -0.6s"></i>
+          <i style="--x: 24%; --h: 48%; --d: -1.9s"></i>
+          <i style="--x: 30%; --h: 30%; --d: -0.4s"></i>
+          <i style="--x: 36%; --h: 56%; --d: -1.4s"></i>
+          <i style="--x: 42%; --h: 38%; --d: -0.9s"></i>
+          <i style="--x: 58%; --h: 44%; --d: -1.7s"></i>
+          <i style="--x: 64%; --h: 28%; --d: -0.3s"></i>
+          <i style="--x: 70%; --h: 52%; --d: -1.2s"></i>
+          <i style="--x: 76%; --h: 34%; --d: -2.1s"></i>
+          <i style="--x: 82%; --h: 24%; --d: -0.8s"></i>
+          <i style="--x: 88%; --h: 42%; --d: -1.5s"></i>
+          <i style="--x: 94%; --h: 20%; --d: -0.5s"></i>
+        </span>
+        <i class="mote" style="--x: 8%; --y: 18%; --t: 26s; --d: -3s; --s: 1"></i>
+        <i class="mote" style="--x: 17%; --y: 74%; --t: 31s; --d: -12s; --s: 0.8"></i>
+        <i class="mote" style="--x: 26%; --y: 41%; --t: 22s; --d: -7s; --s: 1.2"></i>
+        <i class="mote" style="--x: 31%; --y: 88%; --t: 35s; --d: -19s; --s: 0.7"></i>
+        <i class="mote" style="--x: 39%; --y: 12%; --t: 28s; --d: -1s; --s: 0.9"></i>
+        <i class="mote" style="--x: 44%; --y: 63%; --t: 24s; --d: -15s; --s: 1.1"></i>
+        <i class="mote" style="--x: 57%; --y: 27%; --t: 33s; --d: -9s; --s: 0.8"></i>
+        <i class="mote" style="--x: 63%; --y: 81%; --t: 27s; --d: -21s; --s: 1"></i>
+        <i class="mote" style="--x: 69%; --y: 47%; --t: 30s; --d: -5s; --s: 1.3"></i>
+        <i class="mote" style="--x: 76%; --y: 15%; --t: 25s; --d: -17s; --s: 0.9"></i>
+        <i class="mote" style="--x: 82%; --y: 69%; --t: 34s; --d: -11s; --s: 0.7"></i>
+        <i class="mote" style="--x: 89%; --y: 34%; --t: 29s; --d: -23s; --s: 1.1"></i>
+        <i class="mote" style="--x: 94%; --y: 82%; --t: 23s; --d: -6s; --s: 0.9"></i>
+        <i class="mote" style="--x: 12%; --y: 55%; --t: 32s; --d: -14s; --s: 1"></i>
+      </div>
+      <div class="stage-inner">
+        <figure class="phone phone-stage">
+          <img class="screen is-live" data-screen="0" src="/assets/shots/01-lobby.png" width="390" height="844" alt="">
+          <img class="screen" data-screen="1" src="/assets/shots/02-hide.png" width="390" height="844" alt="" loading="lazy">
+          <img class="screen" data-screen="2" src="/assets/shots/04-blackout.png" width="390" height="844" alt="" loading="lazy">
+          <img class="screen" data-screen="3" src="/assets/shots/03-round.png" width="390" height="844" alt="" loading="lazy">
+          <img class="screen" data-screen="4" src="/assets/shots/07-nearby.png" width="390" height="844" alt="" loading="lazy">
+          <img class="screen" data-screen="5" src="/assets/shots/06-leaderboard.png" width="390" height="844" alt="" loading="lazy">
+        </figure>
+        <ol class="steps" aria-hidden="true">
+          <li class="is-live"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="panels">
+      <article class="panel" data-panel="0">
+        <div class="panel-copy">
+          <p class="label panel-n">01 · The lobby</p>
+          <h3>Get your group in</h3>
+          <p>Three to twenty friends, one invite code. Nobody else can get in, and the host sets the zone, the length, and how often the phone goes off.</p>
+        </div>
+      </article>
+
+      <article class="panel panel-flip" data-panel="1">
+        <div class="panel-copy">
+          <p class="label panel-n">02 · The drop</p>
+          <h3>Everyone scatters</h3>
+          <p>One of you seeks, and is held for five minutes while the rest disappear. Everyone else has thirty minutes inside a zone about a kilometer across, on foot.</p>
+        </div>
+      </article>
+
+      <article class="panel" data-panel="2">
+        <div class="panel-copy">
+          <p class="label panel-n">03 · The check-in</p>
+          <h3>Prove where you are</h3>
+          <p>Your phone goes off on a timer the group agrees to. Sixty seconds to photograph your hiding place, back camera then front, straight to the Seeker.</p>
+          <p class="tick"><span class="numeral" id="tick">00:60</span><span class="label tick-note">Miss it and everyone finds out</span></p>
+        </div>
+      </article>
+
+      <article class="panel panel-flip" data-panel="3">
+        <div class="panel-copy">
+          <p class="label panel-n">04 · The hunt</p>
+          <h3>You get seen</h3>
+          <p>The Seeker gets everyone’s position for thirty seconds, every ten minutes, and nothing in between. The zone shrinks in the last third. A catch has to happen face to face.</p>
+        </div>
+      </article>
+
+      <article class="panel" data-panel="4">
+        <div class="panel-copy">
+          <p class="label panel-n">05 · Around you</p>
+          <h3>The city is the board</h3>
+          <p>Real landmarks are worth the walk. A cache hands you an item, a beacon pays you XP for as long as you hold it, a waystation clears whatever has been done to you. Items are earned on foot, never bought.</p>
+          <p>Adults can also see games starting nearby and ask to join one. Eighteen and over, off until you turn it on, and it never shows anyone where you are.</p>
+        </div>
+      </article>
+
+      <article class="panel panel-flip" data-panel="5">
+        <div class="panel-copy">
+          <p class="label panel-n">06 · After the round</p>
+          <h3>It all carries over</h3>
+          <p>Every round feeds one profile. XP, levels, and a global board that ranks on nothing but XP. Handles and numbers, and no way for anyone on it to find you.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="closing">
+    <h2>Get on the list.</h2>
+    <p>One email at launch, and the reward link with it.</p>
+    <p><a class="btn btn-ghost" href="#waitlist">Back to the top</a></p>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <p class="foot-brand">
+      <a class="lockup" href="/">
+        <img class="mark" src="/assets/hidewire-logo.svg" width="28" height="28" alt="">
+        <span class="wordmark">Hidewire</span>
+      </a>
+    </p>
+    <nav aria-label="Footer">
+      <ul class="foot-links">
+        <li><a href="/terms/">Terms</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="mailto:support@frame.game">support@frame.game</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script src="/waitlist.js" defer></script>
+</body>
+</html>
