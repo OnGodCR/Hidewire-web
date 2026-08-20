@@ -80,6 +80,21 @@ summary {
   line-height: 1.5; white-space: pre-wrap;
 }
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; padding: 0.9rem 1.1rem 1.1rem; border-top: 1px solid var(--line); }
+.why { padding: 0.9rem 1.1rem 0; border-top: 1px solid var(--line); }
+.why label {
+  display: block; font-family: 'PlexMono', monospace; font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.14em; color: var(--dim); margin-bottom: 0.5rem;
+}
+.why textarea {
+  width: 100%; min-height: 4.5rem; resize: vertical; padding: 0.75rem 0.85rem;
+  background: var(--bg); color: var(--text); border: 1px solid var(--line);
+  border-radius: 10px; font-family: 'Grotesk', system-ui, sans-serif; font-size: 1rem;
+}
+.why textarea:focus { outline: none; border-color: var(--accent); }
+.note {
+  padding: 0 1.1rem 1.1rem; color: var(--text); font-size: 0.88rem; line-height: 1.5;
+  border-left: 2px solid var(--danger); margin: 0 1.1rem 1.1rem; padding: 0.5rem 0 0.5rem 0.8rem;
+}
 button {
   font-family: 'PlexMono', monospace; font-size: 0.72rem; text-transform: uppercase;
   letter-spacing: 0.12em; min-height: 3.4rem; width: 100%;
@@ -134,13 +149,24 @@ export async function onRequest(context) {
     if (!deck) return seeOther(url, env, 'nothing to do');
 
     if (!approve) {
+      const note = String(form.get('note') || '').trim().slice(0, 2000);
+      if (!note) {
+        return seeOther(url, env, `say why ${deck} is wrong, then decline again`, '', true);
+      }
       await rest(`ig_review?deck=eq.${deck}`, {
         method: 'PATCH',
-        body: JSON.stringify({ status: 'declined', decided_at: new Date().toISOString(), via: 'review page' }),
+        body: JSON.stringify({
+          status: 'declined', note,
+          decided_at: new Date().toISOString(), via: 'review page',
+        }),
       });
-      return seeOther(url, env, `${deck} declined`);
+      return seeOther(url, env, `${deck} declined, and the reason is recorded`);
     }
 
+    const note = String(form.get('note') || '').trim().slice(0, 2000);
+    if (note) {
+      await rest(`ig_review?deck=eq.${deck}`, { method: 'PATCH', body: JSON.stringify({ note }) });
+    }
     try {
       const result = await publish(deck, rest);
       return seeOther(url, env, `${deck} posted to Instagram`, result.permalink);
@@ -167,23 +193,25 @@ export async function onRequest(context) {
     const imgs = slides
       .map((s) => `<img src="/ig/${esc(d.deck)}/${esc(s)}" loading="lazy" alt="" onerror="this.remove();if(!this.parentNode.querySelector('img'))this.parentNode.remove()">`)
       .join('');
+    // One form, two submit buttons. The reason field belongs to both, so a
+    // decline always has somewhere to say why without a second screen.
     const controls = d.status === 'pending'
-      ? `<div class="actions">
-           <form method="post" onsubmit="return confirm('Post ${esc(d.deck)} to Instagram now?')">
-             <input type="hidden" name="deck" value="${esc(d.deck)}">
-             <input type="hidden" name="verdict" value="approve">
-             <button class="yes">Approve · post now</button>
-           </form>
-           <form method="post" onsubmit="return confirm('Decline ${esc(d.deck)}?')">
-             <input type="hidden" name="deck" value="${esc(d.deck)}">
-             <input type="hidden" name="verdict" value="decline">
-             <button class="no">Decline</button>
-           </form>
-         </div>`
+      ? `<form method="post" onsubmit="return this.verdict.value !== 'approve' || confirm('Post ${esc(d.deck)} to Instagram now?')">
+           <input type="hidden" name="deck" value="${esc(d.deck)}">
+           <input type="hidden" name="verdict" value="">
+           <div class="why">
+             <label for="note-${esc(d.deck)}">Notes · required to decline</label>
+             <textarea id="note-${esc(d.deck)}" name="note" placeholder="What is wrong with it? This reaches Claude Code."></textarea>
+           </div>
+           <div class="actions">
+             <button class="yes" type="submit" onclick="this.form.verdict.value='approve'">Approve · post now</button>
+             <button class="no" type="submit" onclick="this.form.verdict.value='decline'">Decline</button>
+           </div>
+         </form>`
       : d.status === 'published'
         ? `<p class="meta">Posted ${esc((d.published_at || '').slice(0, 10))}${
             d.permalink ? ` · <a href="${esc(d.permalink)}">see the post</a>` : ''}</p>`
-        : `<p class="meta">Declined ${esc((d.decided_at || '').slice(0, 10))}</p>`;
+        : `${d.note ? `<p class="note">${esc(d.note)}</p>` : ''}<p class="meta">Declined ${esc((d.decided_at || '').slice(0, 10))}</p>`;
     const caption = d.caption
       ? `<details><summary>Caption</summary><p class="caption">${esc(d.caption)}</p></details>`
       : '';
