@@ -58,6 +58,16 @@ export async function onRequest(context) {
     'Content-Type': 'application/json',
   };
 
+  // Flight recorder: one row that always holds the last signed event that
+  // arrived, whatever its shape. Signature-checked traffic only, service
+  // role only reads it. Without this, a payload in a shape the parser does
+  // not recognise is indistinguishable from no delivery at all.
+  await fetch(`${env.SUPABASE_URL}/rest/v1/ig_contacts?on_conflict=igsid`, {
+    method: 'POST',
+    headers: { ...headers, Prefer: 'resolution=merge-duplicates' },
+    body: JSON.stringify({ igsid: 'debug:last-event', last_text: raw.slice(0, 200) }),
+  });
+
   const events = [];
   for (const entry of body.entry || []) {
     for (const m of entry.messaging || []) events.push(m);
