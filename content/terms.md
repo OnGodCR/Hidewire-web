@@ -66,4 +66,4 @@ This section in particular has not yet been reviewed by a lawyer and will change
 
 If these terms change in a way that matters, you will be asked to accept them again.
 
-Questions go to support@frame.game.
+Questions go to hidewiresupport@gmail.com.

@@ -58,4 +58,4 @@ You can report a POI that should not be in the game. Reported locations are revi
 
 ## Contact
 
-Privacy questions go to support@frame.game.
+Privacy questions go to hidewiresupport@gmail.com.

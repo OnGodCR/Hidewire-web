@@ -28,7 +28,7 @@ after a human has read it:
 > address and the date you gave it, and nothing else. We do not store your IP
 > address, your device, or where you came from. We use it once, to tell you
 > when the beta opens. It is deleted when the beta opens, or sooner if you ask
-> us at support@frame.game.
+> us at hidewiresupport@gmail.com.
 
 If that last sentence is adopted, **something has to actually delete the rows**
 when the beta opens. A retention promise with no job behind it is worse than
@@ -80,17 +80,17 @@ Two things follow:
   defensible, and it should stay next to any mention of nearby games in any
   marketing, not just here.
 
-## 2. The contact address is `support@frame.game`, on a site called hidewire.org
+## 2. The contact address, resolved 2026-08-20
 
-Both documents point at `support@frame.game`. The product is Hidewire, the
-domain is hidewire.org, and the in-round explainer card in the app points at
-`frame.game/what-is-this`. Someone emailing a domain that does not match the
-product they are looking at is a small trust cost on the page where trust
-matters most.
+Both documents pointed at `support@frame.game`, a domain that matched neither
+the product nor the site. Angad picked `hidewiresupport@gmail.com`, and it is
+now in both legal documents (changed upstream in the app repo, so the site's
+verbatim copies stay verbatim), the site footer, and the form's error message.
 
-Either move the address to the new domain, or decide deliberately that
-frame.game stays the operating entity. The site uses whatever the Markdown
-says, so fixing it upstream fixes it here.
+Still open from the same family: the in-round explainer card in the app
+(`mobile/src/components/RoundChrome.tsx`) shows `frame.game/what-is-this`.
+That should become `hidewire.org/what-is-this` once that page exists, and the
+page is one of the two pre-launch pages this file already lists.
 
 ## 3. Section 7 of the Terms says it will change
 

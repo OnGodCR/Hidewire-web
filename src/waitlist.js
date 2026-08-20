@@ -31,7 +31,7 @@
     invalid: 'That does not look like an email address. Check it and try again.',
     ok: 'You are on the list. We will email you once, when the beta opens.',
     known: 'That address is already on the list. Nothing else to do.',
-    error: 'Something went wrong at our end. Try again, or email support@frame.game.',
+    error: 'Something went wrong at our end. Try again, or email hidewiresupport@gmail.com.',
   };
 
   function say(state, message) {
